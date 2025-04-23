@@ -67,9 +67,10 @@ class _MyHomePageState extends State<MyHomePage> {
             child: Column(
               mainAxisAlignment: MainAxisAlignment.center,
               children: <Widget>[
-                // TimelineMapp(),
-                SteppedProgressBar(),
-                // MappStepper(),
+                const SteppedProgressBar(
+                  totalSteps: 5+1,
+                  currentStep: 3,
+                ),
                 const Text(
                   'You have pushed the button this many times:',
                 ),

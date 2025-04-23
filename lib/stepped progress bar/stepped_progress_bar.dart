@@ -23,25 +23,40 @@ const digitMapping = {
   '18': '১৮',
   '19': '১৯',
   '20': '২0',
+  '21': '২১',
+  '22': '২২',
+  '23': '২৩',
+  '24': '২৪',
+  '25': '২৫',
+  '26': '২৬',
+  '27': '২৭',
+  '28': '২৮',
+  '29': '২৯',
+  '30': '৩0',
 };
 
 class SteppedProgressBar extends StatefulWidget {
-  const SteppedProgressBar({super.key});
+  const SteppedProgressBar({
+    super.key,
+    required this.totalSteps,
+    required this.currentStep,
+  });
+
+  final int totalSteps;
+  final int currentStep;
 
   @override
   State<SteppedProgressBar> createState() => _SteppedProgressBarState();
 }
 
 class _SteppedProgressBarState extends State<SteppedProgressBar> {
-  int currentStep = 2;
-  int totalSteps = 7;
   Color selectedColor = const Color(0xFFFFCC59);
   Color unselectedColor = const Color(0xFFF3F3F3);
 
   @override
   Widget build(BuildContext context) {
     double width = MediaQuery.of(context).size.width - 32;
-    double singleWidth = (width - 38.4) / totalSteps;
+    double singleWidth = (width - 38.4) / widget.totalSteps;
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 16.0),
       child: SizedBox(
@@ -52,8 +67,8 @@ class _SteppedProgressBarState extends State<SteppedProgressBar> {
             SizedBox(
               width: width - 38.4,
               child: StepProgressIndicator(
-                totalSteps: totalSteps,
-                currentStep: currentStep,
+                totalSteps: widget.totalSteps,
+                currentStep: widget.currentStep,
                 size: 20,
                 padding: 0,
                 customSize: (index, selected) => 30,
@@ -77,7 +92,7 @@ class _SteppedProgressBarState extends State<SteppedProgressBar> {
                                 ),
                               ),
                             )
-                          : index == (totalSteps - 1)
+                          : index == (widget.totalSteps - 1)
                               ? Container(
                                   width: singleWidth,
                                   height: 5,
@@ -94,7 +109,7 @@ class _SteppedProgressBarState extends State<SteppedProgressBar> {
                                   height: 5,
                                   color: color,
                                 ),
-                      index == (totalSteps - 1)
+                      index == (widget.totalSteps - 1)
                           ? Container()
                           : Container(
                               height: 20,
@@ -116,7 +131,7 @@ class _SteppedProgressBarState extends State<SteppedProgressBar> {
               height: 32,
               width: 32,
               fit: BoxFit.contain,
-              currentStep == (totalSteps - 1)
+              widget.currentStep == (widget.totalSteps - 1)
                   ? 'assets/images/unlocked_reward_box.svg'
                   : 'assets/images/locked_reward_box.svg',
             )
