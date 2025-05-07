@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:rewarding_ui_practice/mapp%20stepper/mapp_stepper.dart';
+import 'package:rewarding_ui_practice/segmented_progress_bar/segmented_progress_bar.dart';
 import 'package:rewarding_ui_practice/stepped%20progress%20bar/stepped_progress_bar.dart';
 import 'package:rewarding_ui_practice/timeline/timeline_mapp.dart';
 
@@ -64,21 +65,21 @@ class _MyHomePageState extends State<MyHomePage> {
       body: Center(
         child: SingleChildScrollView(
             scrollDirection: Axis.vertical,
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: <Widget>[
-                const SteppedProgressBar(
-                  totalSteps: 5+1,
-                  currentStep: 3,
-                ),
-                const Text(
-                  'You have pushed the button this many times:',
-                ),
-                Text(
-                  '$_counter',
-                  style: Theme.of(context).textTheme.headlineMedium,
-                ),
-              ],
+            child: Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 16.0),
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: <Widget>[
+                  const Text(
+                    'You have pushed the button this many times:',
+                  ),
+                  Text(
+                    '$_counter',
+                    style: Theme.of(context).textTheme.headlineMedium,
+                  ),
+                  const SegmentedProgressBar(),
+                ],
+              ),
             )),
       ),
       floatingActionButton: FloatingActionButton(
