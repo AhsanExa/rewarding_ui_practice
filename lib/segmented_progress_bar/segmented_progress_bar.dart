@@ -2,6 +2,7 @@ import 'dart:math';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:rewarding_ui_practice/segmented_progress_bar/custom_widget/progress_indicator_with_tooltip/progress_indicator_with_tooltip.dart';
 
 class QuestProgress {
   final String goalAmount;
@@ -198,13 +199,14 @@ class QuestProgressbarSection extends StatelessWidget {
                   width: 6,
                   child: RotatedBox(
                     quarterTurns: -3,
-                    child: LinearProgressIndicator(
+                    child: LinearProgressIndicatorWithTooltip(
                       value: questLevelItem.progressValue,
                       color: color,
                       backgroundColor: (index == currentLevel - 1)
                           ? currentBackgroundColor
                           : backgroundColor,
                       borderRadius: BorderRadius.circular(10),
+                      showTooltip: (index == currentLevel-1),
                     ),
                   ),
                 ),
