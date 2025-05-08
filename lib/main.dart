@@ -1,8 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:rewarding_ui_practice/mapp%20stepper/mapp_stepper.dart';
 import 'package:rewarding_ui_practice/segmented_progress_bar/segmented_progress_bar.dart';
-import 'package:rewarding_ui_practice/stepped%20progress%20bar/stepped_progress_bar.dart';
-import 'package:rewarding_ui_practice/timeline/timeline_mapp.dart';
 
 const int STEPS = 5;
 
@@ -36,19 +33,13 @@ class MyHomePage extends StatefulWidget {
 }
 
 class _MyHomePageState extends State<MyHomePage> {
-  int _counter = 0;
+  final int _counter = 0;
   final pageController = PageController();
   int initialPage = 0;
   int currentStep = 2;
   int totalSteps = 4;
   int currentStep1 = 2;
   int currentStep2 = 1;
-
-  void _incrementCounter() {
-    setState(() {
-      _counter++;
-    });
-  }
 
   @override
   void initState() {
@@ -64,28 +55,24 @@ class _MyHomePageState extends State<MyHomePage> {
       ),
       body: Center(
         child: SingleChildScrollView(
-            scrollDirection: Axis.vertical,
-            child: Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 16.0),
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: <Widget>[
-                  const Text(
-                    'You have pushed the button this many times:',
-                  ),
-                  Text(
-                    '$_counter',
-                    style: Theme.of(context).textTheme.headlineMedium,
-                  ),
-                  const SegmentedProgressBar(),
-                ],
-              ),
-            )),
-      ),
-      floatingActionButton: FloatingActionButton(
-        onPressed: _incrementCounter,
-        tooltip: 'Increment',
-        child: const Icon(Icons.add),
+          scrollDirection: Axis.vertical,
+          child: Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 16.0),
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: <Widget>[
+                const Text(
+                  'You have pushed the button this many times:',
+                ),
+                Text(
+                  '$_counter',
+                  style: Theme.of(context).textTheme.headlineMedium,
+                ),
+                const SegmentedProgressBar(),
+              ],
+            ),
+          ),
+        ),
       ),
     );
   }
