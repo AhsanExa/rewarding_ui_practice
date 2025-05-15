@@ -19,8 +19,8 @@ class QuestProgress {
 final questLevels = [
   QuestProgress(goalAmount: '৳৫,০০০', progressValue: 1, incentive: '৳১০'),
   QuestProgress(goalAmount: '৳১০,০০০', progressValue: 1, incentive: '৳২৫'),
-  QuestProgress(goalAmount: '৳২০,০০০', progressValue: 1, incentive: '৳৫০'),
-  QuestProgress(goalAmount: '৳৫০,০০০', progressValue: .5, incentive: '৳৭০'),
+  QuestProgress(goalAmount: '৳২০,০০০', progressValue: .1, incentive: '৳৫০'),
+  QuestProgress(goalAmount: '৳৫০,০০০', progressValue: 0, incentive: '৳৭০'),
   QuestProgress(goalAmount: '৳১,০০,০০০', progressValue: 0, incentive: '৳১০০'),
   QuestProgress(goalAmount: '৳১,৫০,০০০', progressValue: 0, incentive: '৳১৫০'),
 ];
@@ -45,7 +45,7 @@ class _SegmentedProgressBarState extends State<SegmentedProgressBar> {
   @override
   Widget build(BuildContext context) {
     final screenHeight = MediaQuery.of(context).size.height;
-    const currentLevel = 4;
+    const currentLevel = 3;
     return SizedBox(
       height: screenHeight + 100,
       child: Column(

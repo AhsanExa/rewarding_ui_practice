@@ -3,6 +3,7 @@
 // found in the LICENSE file.
 
 import 'dart:math' as math;
+import 'dart:ui';
 
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/foundation.dart';
@@ -207,16 +208,29 @@ class _LinearProgressIndicatorPainter extends CustomPainter {
       final double clampedValue = clampDouble(value!, 0.0, 1.0);
       final double barWidth = clampedValue * size.width;
       drawBar(0.0, barWidth);
-      if(showTooltip == true) {
 
+      if(showTooltip == true) {
+        // Tooltip drawing
         final double tooltipX = switch (textDirection) {
           TextDirection.rtl => size.width - barWidth,
           TextDirection.ltr => barWidth,
         };
 
-        // Format the number (৳88,800)
+        Color fillColor = Colors.white;
+        Color borderColor = const Color(0xFFDDDDDD);
+        double borderRadius = 12;
+
+        final Paint fillPaint = Paint()
+          ..color = fillColor
+          ..style = PaintingStyle.fill;
+
+        final Paint borderPaint = Paint()
+          ..color = borderColor
+          ..style = PaintingStyle.stroke
+          ..strokeWidth = 2;
+
         final textSpan = TextSpan(
-          text: '৳${(clampedValue * 100000).toInt().toString().replaceAllMapped(RegExp(r'(\d{1,3})(?=(\d{3})+(?!\d))'), (match) => '${match[1]},')}',
+          text: '1000',
           style: const TextStyle(
             color: Colors.pink,
             fontWeight: FontWeight.bold,
@@ -227,55 +241,35 @@ class _LinearProgressIndicatorPainter extends CustomPainter {
         final textPainter = TextPainter(
           text: textSpan,
           textDirection: textDirection,
-        )..layout();
-
-        const double padding = 8.0;
-        const double triangleWidth = 6.0;
-        const double triangleHeight = 10.0;
-        const double radius = 6.0;
-
-        final double bubbleWidth = textPainter.width + padding * 2;
-        final double bubbleHeight = textPainter.height + padding * 2;
-        final double centerY = size.height / 2;
-
-        final double bubbleLeft = tooltipX.clamp(0.0, size.width - bubbleWidth - triangleWidth);
-        final double bubbleTop = centerY - bubbleHeight / 2;
-
-        // Bubble rectangle
-        final RRect bubble = RRect.fromRectAndRadius(
-          Rect.fromLTWH(bubbleLeft + triangleWidth, bubbleTop, bubbleWidth, bubbleHeight),
-          Radius.circular(radius),
         );
 
-        // Triangle path
-        final Path triangle = Path()
-          ..moveTo(bubbleLeft, centerY)
-          ..lineTo(bubbleLeft + triangleWidth, centerY - triangleHeight / 2)
-          ..lineTo(bubbleLeft + triangleWidth, centerY + triangleHeight / 2)
-          ..close();
+        final path = Path();
 
-        // Paints
-        final Paint fillPaint = Paint()..color = Colors.white;
-        final Paint borderPaint = Paint()
-          ..color = Colors.grey[300]!
-          ..style = PaintingStyle.stroke
-          ..strokeWidth = 1;
+        path.moveTo(tooltipX, 0);
+        path.lineTo(tooltipX-8, -8);
+        path.lineTo(tooltipX-15, -8);
+        path.arcToPoint(Offset(tooltipX-18, -12), radius: const Radius.circular(4));
+        path.lineTo(tooltipX-18, -95);
+        path.arcToPoint(Offset(tooltipX-15, -100), radius: const Radius.circular(4));
+        path.lineTo(tooltipX+15, -100);
+        path.arcToPoint(Offset(tooltipX+18, -95), radius: const Radius.circular(4));
+        path.lineTo(tooltipX+18, -12);
+        path.arcToPoint(Offset(tooltipX+15, -8), radius: const Radius.circular(4));
+        path.lineTo(tooltipX+8, -8);
 
-        // Draw background and border
-        canvas.drawRRect(bubble, fillPaint);
-        canvas.drawRRect(bubble, borderPaint);
-        canvas.drawPath(triangle, fillPaint);
-        canvas.drawPath(triangle, borderPaint);
-
-        // Draw text
+        path.close();
+        // Draw filled bubble
+        canvas.drawPath(path, fillPaint);
+        // Draw border
+        canvas.drawPath(path, borderPaint);
+        final Rect bounds = path.getBounds();
+        textPainter.layout(minWidth: 0, maxWidth: bounds.height);
         final Offset textOffset = Offset(
-          bubbleLeft + triangleWidth + padding,
-          bubbleTop + (bubbleHeight - textPainter.height) / 2,
+          tooltipX,
+          -30,
         );
         textPainter.paint(canvas, textOffset);
       }
-      // Tooltip drawing
-
     } else {
       final double x1 = size.width * line1Tail.transform(animationValue);
       final double width1 = size.width * line1Head.transform(animationValue) - x1;
