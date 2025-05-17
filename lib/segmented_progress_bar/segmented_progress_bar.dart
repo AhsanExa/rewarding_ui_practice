@@ -118,7 +118,6 @@ class QuestTableDynamicBody extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final screenHeight = MediaQuery.of(context).size.height;
     final levels = questLevels.length;
     return Flexible(
       child: ListView.builder(
@@ -133,7 +132,7 @@ class QuestTableDynamicBody extends StatelessWidget {
               QuestProgressbarSection(
                 index: index,
                 questLevelItem: questLevels[index],
-                progressHeight: screenHeight / levels,
+                progressHeight: 70,
                 currentLevel: currentLevel,
                 color: color,
                 backgroundColor: backgroundColor,
