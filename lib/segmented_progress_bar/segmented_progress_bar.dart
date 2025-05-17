@@ -6,23 +6,25 @@ import 'package:rewarding_ui_practice/segmented_progress_bar/custom_widget/progr
 
 class QuestProgress {
   final String goalAmount;
+  final String currentAmount;
   final double progressValue;
   final String incentive;
 
   QuestProgress({
     required this.goalAmount,
+    required this.currentAmount,
     required this.progressValue,
     required this.incentive,
   });
 }
 
 final questLevels = [
-  QuestProgress(goalAmount: '৳৫,০০০', progressValue: 1, incentive: '৳১০'),
-  QuestProgress(goalAmount: '৳১০,০০০', progressValue: 1, incentive: '৳২৫'),
-  QuestProgress(goalAmount: '৳২০,০০০', progressValue: .1, incentive: '৳৫০'),
-  QuestProgress(goalAmount: '৳৫০,০০০', progressValue: 0, incentive: '৳৭০'),
-  QuestProgress(goalAmount: '৳১,০০,০০০', progressValue: 0, incentive: '৳১০০'),
-  QuestProgress(goalAmount: '৳১,৫০,০০০', progressValue: 0, incentive: '৳১৫০'),
+  QuestProgress(goalAmount: '৳৫,০০০', currentAmount: '৳৫,০০০', progressValue: 1, incentive: '৳১০'),
+  QuestProgress(goalAmount: '৳১০,০০০', currentAmount: '৳৫,০০০', progressValue: .5, incentive: '৳২৫'),
+  QuestProgress(goalAmount: '৳২০,০০০', currentAmount: '৳০', progressValue: 0, incentive: '৳৫০'),
+  QuestProgress(goalAmount: '৳৫০,০০০', currentAmount: '৳০', progressValue: 0, incentive: '৳৭০'),
+  QuestProgress(goalAmount: '৳১,০০,০০০', currentAmount: '৳০', progressValue: 0, incentive: '৳১০০'),
+  QuestProgress(goalAmount: '৳১,৫০,০০০', currentAmount: '৳০', progressValue: 0, incentive: '৳১৫০'),
 ];
 
 class SegmentedProgressBar extends StatefulWidget {
@@ -45,7 +47,7 @@ class _SegmentedProgressBarState extends State<SegmentedProgressBar> {
   @override
   Widget build(BuildContext context) {
     final screenHeight = MediaQuery.of(context).size.height;
-    const currentLevel = 3;
+    const currentLevel = 2;
     return SizedBox(
       height: screenHeight + 100,
       child: Column(
@@ -131,7 +133,7 @@ class QuestTableDynamicBody extends StatelessWidget {
               QuestProgressbarSection(
                 index: index,
                 questLevelItem: questLevels[index],
-                progressHeight: screenHeight/levels,
+                progressHeight: screenHeight / levels,
                 currentLevel: currentLevel,
                 color: color,
                 backgroundColor: backgroundColor,
@@ -205,35 +207,41 @@ class QuestProgressbarSection extends StatelessWidget {
                       backgroundColor: (index == currentLevel - 1)
                           ? currentBackgroundColor
                           : backgroundColor,
-                      borderRadius: BorderRadius.circular(10),
-                      showTooltip: (index == currentLevel-1),
+                      borderRadius: (index == 0)
+                          ? const BorderRadius.only(
+                              topLeft: Radius.circular(4),
+                              bottomLeft: Radius.circular(4),
+                            )
+                          : BorderRadius.zero,
+                      showTooltip: (index == currentLevel - 1),
+                      tooltipText: questLevelItem.currentAmount,
                     ),
                   ),
                 ),
                 (questLevelItem.progressValue == 1)
-                  ? Container(
-                      height: 20,
-                      width: 20,
-                      decoration: BoxDecoration(
-                        color: color,
-                        shape: BoxShape.circle,
-                      ),
-                      child: const Center(
-                        child: Icon(
-                          Icons.check,
-                          color: Colors.white,
-                          size: 10,
+                    ? Container(
+                        height: 20,
+                        width: 20,
+                        decoration: BoxDecoration(
+                          color: color,
+                          shape: BoxShape.circle,
+                        ),
+                        child: const Center(
+                          child: Icon(
+                            Icons.check,
+                            color: Colors.white,
+                            size: 10,
+                          ),
+                        ),
+                      )
+                    : Container(
+                        height: 20,
+                        width: 20,
+                        decoration: BoxDecoration(
+                          color: backgroundColor,
+                          shape: BoxShape.circle,
                         ),
                       ),
-                    )
-                  : Container(
-                      height: 20,
-                      width: 20,
-                      decoration: BoxDecoration(
-                        color: backgroundColor,
-                        shape: BoxShape.circle,
-                      ),
-                    ),
               ],
             ),
           ),
@@ -318,5 +326,3 @@ class HorizontalDashedLine extends StatelessWidget {
     );
   }
 }
-
-
