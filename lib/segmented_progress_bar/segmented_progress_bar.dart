@@ -19,12 +19,36 @@ class QuestProgress {
 }
 
 final questLevels = [
-  QuestProgress(goalAmount: '৳৫,০০০', currentAmount: '৳৫,০০০', progressValue: 1, incentive: '৳১০'),
-  QuestProgress(goalAmount: '৳১০,০০০', currentAmount: '৳৫,০০০', progressValue: .5, incentive: '৳২৫'),
-  QuestProgress(goalAmount: '৳২০,০০০', currentAmount: '৳০', progressValue: 0, incentive: '৳৫০'),
-  QuestProgress(goalAmount: '৳৫০,০০০', currentAmount: '৳০', progressValue: 0, incentive: '৳৭০'),
-  QuestProgress(goalAmount: '৳১,০০,০০০', currentAmount: '৳০', progressValue: 0, incentive: '৳১০০'),
-  QuestProgress(goalAmount: '৳১,৫০,০০০', currentAmount: '৳০', progressValue: 0, incentive: '৳১৫০'),
+  QuestProgress(
+      goalAmount: '৳৫,০০০',
+      currentAmount: '৳৫,০০০',
+      progressValue: 1,
+      incentive: '৳১০'),
+  QuestProgress(
+      goalAmount: '৳১০,০০০',
+      currentAmount: '৳৫,০০০',
+      progressValue: .5,
+      incentive: '৳২৫'),
+  QuestProgress(
+      goalAmount: '৳২০,০০০',
+      currentAmount: '৳০',
+      progressValue: 0,
+      incentive: '৳৫০'),
+  QuestProgress(
+      goalAmount: '৳৫০,০০০',
+      currentAmount: '৳০',
+      progressValue: 0,
+      incentive: '৳৭০'),
+  QuestProgress(
+      goalAmount: '৳১,০০,০০০',
+      currentAmount: '৳০',
+      progressValue: 0,
+      incentive: '৳১০০'),
+  QuestProgress(
+      goalAmount: '৳১,৫০,০০০',
+      currentAmount: '৳০',
+      progressValue: 0,
+      incentive: '৳১৫০'),
 ];
 
 class SegmentedProgressBar extends StatefulWidget {
@@ -159,7 +183,13 @@ class QuestGoalSection extends StatelessWidget {
   Widget build(BuildContext context) {
     return Expanded(
       flex: 6,
-      child: Text(questLevelItem.goalAmount),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Text(questLevelItem.goalAmount),
+          const Text('পেমেন্ট গ্রহণ'),
+        ],
+      ),
     );
   }
 }
@@ -264,7 +294,10 @@ class QuestIncentiveSection extends StatelessWidget {
         mainAxisSize: MainAxisSize.min,
         crossAxisAlignment: CrossAxisAlignment.center,
         children: [
-          SvgPicture.asset('assets/images/level_coin.svg'),
+          if (questLevelItem.progressValue == 1)
+            SvgPicture.asset('assets/images/achieved_level_coin.svg')
+          else
+            SvgPicture.asset('assets/images/level_coin.svg'),
           const SizedBox(
             width: 4.0,
           ),
